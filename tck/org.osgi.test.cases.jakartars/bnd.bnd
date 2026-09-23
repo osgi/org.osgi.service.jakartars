@@ -1,0 +1,39 @@
+# Set javac settings from JDT prefs
+
+
+-conditionalpackage: org.osgi.test.support.*,\
+ org.apache.http.*,\
+ org.apache.commons.codec.*,\
+ org.apache.commons.logging.*
+-privatepackage                     =  \
+    ${p}.*
+Import-Package: ${-signaturetest},\
+ org.apache.avalon.framework.logger;resolution:=optional,\
+ org.apache.log;resolution:=optional,\
+ org.apache.log4j;resolution:=optional,\
+ jakarta.servlet.*;version=!;resolution:=dynamic,\
+ *
+
+-contract: JavaJAXRS
+
+
+-runvm: ${if;${is;-1;${vcompare;${java.specification.version};9}};;--add-opens=java.base/java.net=ALL-UNNAMED}
+
+
+-signaturetest                      = org.osgi.service.jakartars.runtime,\
+                                      org.osgi.service.jakartars.runtime.dto,\
+                                      org.osgi.service.jakartars.whiteboard
+
+p: org.osgi.test.cases.jakartars
+
+# Maven build: workspace includes replaced inline (from cnf/includes and build.bnd in osgi/osgi)
+# -make.maven, not -make: the key is a map entry and would displace
+# a project-level -make (webcontainer also builds .war recipes this
+# way). bnd merges all -make.* entries.
+-make.maven: (*).(jar); type=bnd; recipe="bnd/$1.bnd"
+
+testcases.junit3: ${classes;EXTENDS;junit.framework.TestCase;CONCRETE}
+testcases.junit4: ${classes;HIERARCHY_ANNOTATED;org.junit.Test;CONCRETE}
+testcases.junit5: ${classes;HIERARCHY_INDIRECTLY_ANNOTATED;org.junit.platform.commons.annotation.Testable;CONCRETE}
+Test-Cases: ${sort;${uniq;${testcases.junit3};${testcases.junit4};${testcases.junit5}}}
+-plugin.signaturetest: SignatureTest
