@@ -1,5 +1,4 @@
 # Set javac settings from JDT prefs
--include: ${includes}/jdt.bnd, ${includes}/osgi.tck.junit-platform.bnd, ${includes}/osgi.tck.promise.bnd, ${includes}/tck.bnd, ${includes}/cmpn.bnd
 
 
 -conditionalpackage: org.osgi.test.support.*,\
@@ -17,28 +16,24 @@ Import-Package: ${-signaturetest},\
 
 -contract: JavaJAXRS
 
--buildpath: \
-	org.osgi.test.support;version=project,\
-    org.osgi.framework;maven-scope=provided;version=1.8, \
-    org.osgi.dto;maven-scope=provided;version=1.0, \
-    org.osgi.resource;maven-scope=provided;version=1.0, \
-    org.osgi.util.tracker;maven-scope=provided;version=1.5, \
-	org.osgi.namespace.implementation;version=1.0,\
-	org.osgi.namespace.service;version=1.0,\
-	org.osgi.namespace.contract;version=1.0,\
-	org.osgi.service.jakartars;version=latest,\
-	jakarta.ws.rs-api;version=3.0,\
-	org.apache.felix.http.servlet-api;version=2.0,\
-    org.apache.commons.logging;version=1.2,\
-	org.apache.httpcomponents.httpcore;version=4.4.6,\
-	org.apache.httpcomponents.httpclient;version=4.5.3
 
 -runvm: ${if;${is;-1;${vcompare;${java.specification.version};9}};;--add-opens=java.base/java.net=ALL-UNNAMED}
 
--runbundles = \
-    org.osgi.impl.service.cm;version=latest,\
-    org.osgi.impl.service.jakartars;version=latest
 
 -signaturetest                      = org.osgi.service.jakartars.runtime,\
                                       org.osgi.service.jakartars.runtime.dto,\
                                       org.osgi.service.jakartars.whiteboard
+
+p: org.osgi.test.cases.jakartars
+
+# Maven build: workspace includes replaced inline (from cnf/includes and build.bnd in osgi/osgi)
+# -make.maven, not -make: the key is a map entry and would displace
+# a project-level -make (webcontainer also builds .war recipes this
+# way). bnd merges all -make.* entries.
+-make.maven: (*).(jar); type=bnd; recipe="bnd/$1.bnd"
+
+testcases.junit3: ${classes;EXTENDS;junit.framework.TestCase;CONCRETE}
+testcases.junit4: ${classes;HIERARCHY_ANNOTATED;org.junit.Test;CONCRETE}
+testcases.junit5: ${classes;HIERARCHY_INDIRECTLY_ANNOTATED;org.junit.platform.commons.annotation.Testable;CONCRETE}
+Test-Cases: ${sort;${uniq;${testcases.junit3};${testcases.junit4};${testcases.junit5}}}
+-plugin.signaturetest: SignatureTest
