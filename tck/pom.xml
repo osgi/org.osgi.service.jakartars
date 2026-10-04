@@ -24,7 +24,7 @@
 		<byte-buddy.version>1.12.10</byte-buddy.version>
 		<geronimo-json_1.1_spec.version>1.5</geronimo-json_1.1_spec.version>
 		<hamcrest.version>2.2</hamcrest.version>
-		<hk2-api.version>3.0.3</hk2-api.version>
+		<hk2-api.version>4.0.3</hk2-api.version>
 		<hk2-locator.version>3.0.3</hk2-locator.version>
 		<hk2-utils.version>3.0.3</hk2-utils.version>
 		<httpclient-osgi.version>4.5.3</httpclient-osgi.version>
