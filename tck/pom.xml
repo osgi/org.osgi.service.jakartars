@@ -19,7 +19,7 @@
 		<asm-tree.version>9.3</asm-tree.version>
 		<asm-util.version>9.3</asm-util.version>
 		<asm.version>9.10.1</asm.version>
-		<assertj.version>3.23.1</assertj.version>
+		<assertj.version>3.27.7</assertj.version>
 		<awaitility.version>4.2.0</awaitility.version>
 		<byte-buddy.version>1.12.10</byte-buddy.version>
 		<geronimo-json_1.1_spec.version>1.5</geronimo-json_1.1_spec.version>
