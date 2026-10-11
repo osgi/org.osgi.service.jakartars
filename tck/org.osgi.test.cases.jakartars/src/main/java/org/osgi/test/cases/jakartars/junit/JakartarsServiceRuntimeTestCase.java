@@ -23,10 +23,8 @@ import static java.lang.Boolean.TRUE;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.singleton;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.osgi.framework.Constants.SERVICE_ID;
 import static org.osgi.service.jakartars.runtime.dto.DTOConstants.FAILURE_REASON_DUPLICATE_NAME;
 import static org.osgi.service.jakartars.runtime.dto.DTOConstants.FAILURE_REASON_NOT_AN_EXTENSION_TYPE;
@@ -59,8 +57,8 @@ import org.osgi.service.jakartars.runtime.dto.ResourceDTO;
 import org.osgi.service.jakartars.runtime.dto.ResourceMethodInfoDTO;
 import org.osgi.service.jakartars.whiteboard.JakartarsWhiteboardConstants;
 import org.osgi.test.cases.jakartars.applications.SimpleApplication;
-import org.osgi.test.cases.jakartars.extensions.BoundStringReplacer;
 import org.osgi.test.cases.jakartars.extensions.BoundStringReplacer.NameBound;
+import org.osgi.test.cases.jakartars.extensions.BoundStringReplacer;
 import org.osgi.test.cases.jakartars.extensions.OSGiTextMimeTypeCodec;
 import org.osgi.test.cases.jakartars.extensions.StringReplacer;
 import org.osgi.test.cases.jakartars.resources.EchoResource;
@@ -116,14 +114,13 @@ public class JakartarsServiceRuntimeTestCase extends AbstractJakartarsTestCase {
 		resourceDTOs = runtimeService
 				.getRuntimeDTO().defaultApplication.resourceDTOs;
 
-		assertEquals(previousResourceLength + 1, resourceDTOs.length);
+		assertThat(resourceDTOs).hasSize(previousResourceLength + 1);
 
 		ResourceDTO whiteboardResource = findResourceDTO(resourceDTOs, "test");
 
-		assertNotNull(whiteboardResource);
-		assertEquals(reg.getReference().getProperty(SERVICE_ID),
-				whiteboardResource.serviceId);
-		assertEquals(5, whiteboardResource.resourceMethods.length);
+		assertThat(whiteboardResource).isNotNull();
+		assertThat(whiteboardResource.serviceId).isEqualTo(reg.getReference().getProperty(SERVICE_ID));
+		assertThat(whiteboardResource.resourceMethods).hasSize(5);
 
 		for (ResourceMethodInfoDTO infoDTO : whiteboardResource.resourceMethods) {
 			checkWhiteboardResourceMethod(infoDTO);
@@ -140,34 +137,33 @@ public class JakartarsServiceRuntimeTestCase extends AbstractJakartarsTestCase {
 
 		switch (infoDTO.method) {
 			case "DELETE" :
-				assertEquals("whiteboard/resource/{name}", path);
-				assertNull(infoDTO.consumingMimeType);
-				assertNotNull(infoDTO.producingMimeType);
-				assertNull(infoDTO.nameBindings);
-				assertEquals(TEXT_PLAIN, infoDTO.producingMimeType[0]);
+				assertThat(path).isEqualTo("whiteboard/resource/{name}");
+				assertThat(infoDTO.consumingMimeType).isNull();
+				assertThat(infoDTO.producingMimeType).isNotNull();
+				assertThat(infoDTO.nameBindings).isNull();
+				assertThat(infoDTO.producingMimeType[0]).isEqualTo(TEXT_PLAIN);
 				break;
 			case "PUT" :
-				assertEquals("whiteboard/resource/{name}", path);
-				assertNull(infoDTO.consumingMimeType);
-				assertNotNull(infoDTO.producingMimeType);
-				assertNull(infoDTO.nameBindings);
-				assertEquals(TEXT_PLAIN, infoDTO.producingMimeType[0]);
+				assertThat(path).isEqualTo("whiteboard/resource/{name}");
+				assertThat(infoDTO.consumingMimeType).isNull();
+				assertThat(infoDTO.producingMimeType).isNotNull();
+				assertThat(infoDTO.nameBindings).isNull();
+				assertThat(infoDTO.producingMimeType[0]).isEqualTo(TEXT_PLAIN);
 				break;
 			case "POST" :
-				assertEquals("whiteboard/resource/{oldName}/{newName}",
-						path);
-				assertNull(infoDTO.consumingMimeType);
-				assertNotNull(infoDTO.producingMimeType);
-				assertNull(infoDTO.nameBindings);
-				assertEquals(TEXT_PLAIN, infoDTO.producingMimeType[0]);
+				assertThat(path).isEqualTo("whiteboard/resource/{oldName}/{newName}");
+				assertThat(infoDTO.consumingMimeType).isNull();
+				assertThat(infoDTO.producingMimeType).isNotNull();
+				assertThat(infoDTO.nameBindings).isNull();
+				assertThat(infoDTO.producingMimeType[0]).isEqualTo(TEXT_PLAIN);
 				break;
 			case "GET" :
 				if ("whiteboard/resource/{name}".equals(path)
 						|| "whiteboard/resource".equals(path)) {
-					assertNull(infoDTO.consumingMimeType);
-					assertNotNull(infoDTO.producingMimeType);
-					assertNull(infoDTO.nameBindings);
-					assertEquals(TEXT_PLAIN, infoDTO.producingMimeType[0]);
+					assertThat(infoDTO.consumingMimeType).isNull();
+					assertThat(infoDTO.producingMimeType).isNotNull();
+					assertThat(infoDTO.nameBindings).isNull();
+					assertThat(infoDTO.producingMimeType[0]).isEqualTo(TEXT_PLAIN);
 				} else {
 					fail("Invalid resource path " + path);
 				}
@@ -222,7 +218,7 @@ public class JakartarsServiceRuntimeTestCase extends AbstractJakartarsTestCase {
 		extensionDTOs = runtimeService
 				.getRuntimeDTO().defaultApplication.extensionDTOs;
 
-		assertEquals(previousExtensionLength + 1, extensionDTOs.length);
+		assertThat(extensionDTOs).hasSize(previousExtensionLength + 1);
 
 		ExtensionDTO whiteboardExtension = null;
 		for (ExtensionDTO extension : extensionDTOs) {
@@ -232,24 +228,21 @@ public class JakartarsServiceRuntimeTestCase extends AbstractJakartarsTestCase {
 			}
 		}
 
-		assertNotNull(whiteboardExtension);
-		assertEquals(reg.getReference().getProperty(SERVICE_ID),
-				whiteboardExtension.serviceId);
+		assertThat(whiteboardExtension).isNotNull();
+		assertThat(whiteboardExtension.serviceId).isEqualTo(reg.getReference().getProperty(SERVICE_ID));
 
-		assertEquals(
-				new HashSet<>(asList(MessageBodyReader.class.getName(),
-						MessageBodyWriter.class.getName())),
-				new HashSet<>(asList(whiteboardExtension.extensionTypes)));
+		assertThat(new HashSet<>(asList(whiteboardExtension.extensionTypes))).isEqualTo(new HashSet<>(asList(MessageBodyReader.class.getName(),
+						MessageBodyWriter.class.getName())));
 
-		assertNotNull(whiteboardExtension.consumes);
-		assertEquals(1, whiteboardExtension.consumes.length);
-		assertEquals("osgi/text", whiteboardExtension.consumes[0]);
-		assertNotNull(whiteboardExtension.produces);
-		assertEquals(1, whiteboardExtension.produces.length);
-		assertEquals("osgi/text", whiteboardExtension.produces[0]);
+		assertThat(whiteboardExtension.consumes).isNotNull();
+		assertThat(whiteboardExtension.consumes.length).isEqualTo(1);
+		assertThat(whiteboardExtension.consumes[0]).isEqualTo("osgi/text");
+		assertThat(whiteboardExtension.produces).isNotNull();
+		assertThat(whiteboardExtension.produces.length).isEqualTo(1);
+		assertThat(whiteboardExtension.produces[0]).isEqualTo("osgi/text");
 
-		assertNull(whiteboardExtension.nameBindings);
-		assertNull(whiteboardExtension.filteredByName);
+		assertThat(whiteboardExtension.nameBindings).isNull();
+		assertThat(whiteboardExtension.filteredByName).isNull();
 	}
 
 	/**
@@ -296,15 +289,13 @@ public class JakartarsServiceRuntimeTestCase extends AbstractJakartarsTestCase {
 				}
 		}
 
-		assertNotNull(whiteboardExtension);
-		assertEquals(extensionReg.getReference().getProperty(SERVICE_ID),
-				whiteboardExtension.serviceId);
+		assertThat(whiteboardExtension).isNotNull();
+		assertThat(whiteboardExtension.serviceId).isEqualTo(extensionReg.getReference().getProperty(SERVICE_ID));
 
-		assertEquals(asList(NameBound.class.getName()),
-				asList(whiteboardExtension.nameBindings));
+		assertThat(asList(whiteboardExtension.nameBindings)).isEqualTo(asList(NameBound.class.getName()));
 
-		assertNotNull(whiteboardExtension.filteredByName);
-		assertEquals(1, whiteboardExtension.filteredByName.length);
+		assertThat(whiteboardExtension.filteredByName).isNotNull();
+		assertThat(whiteboardExtension.filteredByName.length).isEqualTo(1);
 
 		checkBoundResourceDTO(resourceReg,
 				whiteboardExtension.filteredByName[0]);
@@ -318,22 +309,20 @@ public class JakartarsServiceRuntimeTestCase extends AbstractJakartarsTestCase {
 	private void checkBoundResourceDTO(
 			ServiceRegistration<NameBoundWhiteboardResource> resourceReg,
 			ResourceDTO resourceDTO) {
-		assertEquals(resourceReg.getReference().getProperty(SERVICE_ID),
-				resourceDTO.serviceId);
+		assertThat(resourceDTO.serviceId).isEqualTo(resourceReg.getReference().getProperty(SERVICE_ID));
 
-		assertNotNull(resourceDTO.resourceMethods);
-		assertEquals(2, resourceDTO.resourceMethods.length);
+		assertThat(resourceDTO.resourceMethods).isNotNull();
+		assertThat(resourceDTO.resourceMethods).hasSize(2);
 
 		for (ResourceMethodInfoDTO dto : resourceDTO.resourceMethods) {
 			switch (dto.path) {
 				case "/whiteboard/name/bound" :
 				case "whiteboard/name/bound" :
-					assertEquals(asList(NameBound.class.getName()),
-							asList(dto.nameBindings));
+					assertThat(asList(dto.nameBindings)).isEqualTo(asList(NameBound.class.getName()));
 					break;
 				case "/whiteboard/name/unbound" :
 				case "whiteboard/name/unbound" :
-					assertNull(dto.nameBindings);
+					assertThat(dto.nameBindings).isNull();
 					break;
 				default :
 					fail("Unexpected method " + dto);
@@ -381,12 +370,11 @@ public class JakartarsServiceRuntimeTestCase extends AbstractJakartarsTestCase {
 			}
 		}
 
-		assertEquals(previousApplicationsLength + 1, applicationDTOs.length);
+		assertThat(applicationDTOs).hasSize(previousApplicationsLength + 1);
 
-		assertNotNull(whiteboardApp);
-		assertEquals(reg.getReference().getProperty(SERVICE_ID),
-				whiteboardApp.serviceId);
-		assertEquals(5, whiteboardApp.resourceMethods.length);
+		assertThat(whiteboardApp).isNotNull();
+		assertThat(whiteboardApp.serviceId).isEqualTo(reg.getReference().getProperty(SERVICE_ID));
+		assertThat(whiteboardApp.resourceMethods).hasSize(5);
 
 		for (ResourceMethodInfoDTO infoDTO : whiteboardApp.resourceMethods) {
 			checkWhiteboardResourceMethod(infoDTO);
@@ -438,19 +426,17 @@ public class JakartarsServiceRuntimeTestCase extends AbstractJakartarsTestCase {
 
 		FailedResourceDTO[] dtos = runtimeService
 				.getRuntimeDTO().failedResourceDTOs;
-		assertNotNull(dtos);
-		assertEquals(1, dtos.length);
-		assertEquals(FAILURE_REASON_DUPLICATE_NAME, dtos[0].failureReason);
-		assertEquals(reg2.getReference().getProperty(SERVICE_ID),
-				dtos[0].serviceId);
+		assertThat(dtos).isNotNull();
+		assertThat(dtos).hasSize(1);
+		assertThat(dtos[0].failureReason).isEqualTo(FAILURE_REASON_DUPLICATE_NAME);
+		assertThat(dtos[0].serviceId).isEqualTo(reg2.getReference().getProperty(SERVICE_ID));
 
 		FailedExtensionDTO[] exDtos = runtimeService
 				.getRuntimeDTO().failedExtensionDTOs;
-		assertNotNull(exDtos);
-		assertEquals(1, exDtos.length);
-		assertEquals(FAILURE_REASON_DUPLICATE_NAME, exDtos[0].failureReason);
-		assertEquals(extensionReg.getReference().getProperty(SERVICE_ID),
-				exDtos[0].serviceId);
+		assertThat(exDtos).isNotNull();
+		assertThat(exDtos).hasSize(1);
+		assertThat(exDtos[0].failureReason).isEqualTo(FAILURE_REASON_DUPLICATE_NAME);
+		assertThat(exDtos[0].serviceId).isEqualTo(extensionReg.getReference().getProperty(SERVICE_ID));
 
 	}
 
@@ -475,12 +461,10 @@ public class JakartarsServiceRuntimeTestCase extends AbstractJakartarsTestCase {
 
 		FailedResourceDTO[] dtos = runtimeService
 				.getRuntimeDTO().failedResourceDTOs;
-		assertNotNull(dtos);
-		assertEquals(1, dtos.length);
-		assertEquals(FAILURE_REASON_REQUIRED_EXTENSIONS_UNAVAILABLE,
-				dtos[0].failureReason);
-		assertEquals(reg.getReference().getProperty(SERVICE_ID),
-				dtos[0].serviceId);
+		assertThat(dtos).isNotNull();
+		assertThat(dtos).hasSize(1);
+		assertThat(dtos[0].failureReason).isEqualTo(FAILURE_REASON_REQUIRED_EXTENSIONS_UNAVAILABLE);
+		assertThat(dtos[0].serviceId).isEqualTo(reg.getReference().getProperty(SERVICE_ID));
 
 	}
 
@@ -505,12 +489,10 @@ public class JakartarsServiceRuntimeTestCase extends AbstractJakartarsTestCase {
 
 		FailedResourceDTO[] dtos = runtimeService
 				.getRuntimeDTO().failedResourceDTOs;
-		assertNotNull(dtos);
-		assertEquals(1, dtos.length);
-		assertEquals(FAILURE_REASON_REQUIRED_APPLICATION_UNAVAILABLE,
-				dtos[0].failureReason);
-		assertEquals(reg.getReference().getProperty(SERVICE_ID),
-				dtos[0].serviceId);
+		assertThat(dtos).isNotNull();
+		assertThat(dtos).hasSize(1);
+		assertThat(dtos[0].failureReason).isEqualTo(FAILURE_REASON_REQUIRED_APPLICATION_UNAVAILABLE);
+		assertThat(dtos[0].serviceId).isEqualTo(reg.getReference().getProperty(SERVICE_ID));
 
 	}
 
@@ -537,11 +519,10 @@ public class JakartarsServiceRuntimeTestCase extends AbstractJakartarsTestCase {
 
 		FailedResourceDTO[] dtos = runtimeService
 				.getRuntimeDTO().failedResourceDTOs;
-		assertNotNull(dtos);
-		assertEquals(1, dtos.length);
-		assertEquals(FAILURE_REASON_VALIDATION_FAILED, dtos[0].failureReason);
-		assertEquals(reg.getReference().getProperty(SERVICE_ID),
-				dtos[0].serviceId);
+		assertThat(dtos).isNotNull();
+		assertThat(dtos).hasSize(1);
+		assertThat(dtos[0].failureReason).isEqualTo(FAILURE_REASON_VALIDATION_FAILED);
+		assertThat(dtos[0].serviceId).isEqualTo(reg.getReference().getProperty(SERVICE_ID));
 
 	}
 
@@ -566,12 +547,10 @@ public class JakartarsServiceRuntimeTestCase extends AbstractJakartarsTestCase {
 
 		FailedExtensionDTO[] dtos = runtimeService
 				.getRuntimeDTO().failedExtensionDTOs;
-		assertNotNull(dtos);
-		assertEquals(1, dtos.length);
-		assertEquals(FAILURE_REASON_NOT_AN_EXTENSION_TYPE,
-				dtos[0].failureReason);
-		assertEquals(reg.getReference().getProperty(SERVICE_ID),
-				dtos[0].serviceId);
+		assertThat(dtos).isNotNull();
+		assertThat(dtos).hasSize(1);
+		assertThat(dtos[0].failureReason).isEqualTo(FAILURE_REASON_NOT_AN_EXTENSION_TYPE);
+		assertThat(dtos[0].serviceId).isEqualTo(reg.getReference().getProperty(SERVICE_ID));
 	}
 
 	/**
@@ -598,12 +577,10 @@ public class JakartarsServiceRuntimeTestCase extends AbstractJakartarsTestCase {
 
 		FailedResourceDTO[] dtos = runtimeService
 				.getRuntimeDTO().failedResourceDTOs;
-		assertNotNull(dtos);
-		assertEquals(1, dtos.length);
-		assertEquals(FAILURE_REASON_SERVICE_NOT_GETTABLE,
-				dtos[0].failureReason);
-		assertEquals(reg.getReference().getProperty(SERVICE_ID),
-				dtos[0].serviceId);
+		assertThat(dtos).isNotNull();
+		assertThat(dtos).hasSize(1);
+		assertThat(dtos[0].failureReason).isEqualTo(FAILURE_REASON_SERVICE_NOT_GETTABLE);
+		assertThat(dtos[0].serviceId).isEqualTo(reg.getReference().getProperty(SERVICE_ID));
 
 	}
 
@@ -643,11 +620,9 @@ public class JakartarsServiceRuntimeTestCase extends AbstractJakartarsTestCase {
 
 		FailedApplicationDTO[] dtos = runtimeService
 				.getRuntimeDTO().failedApplicationDTOs;
-		assertNotNull(dtos);
-		assertEquals(1, dtos.length);
-		assertEquals(FAILURE_REASON_SHADOWED_BY_OTHER_SERVICE,
-				dtos[0].failureReason);
-		assertEquals(reg2.getReference().getProperty(SERVICE_ID),
-				dtos[0].serviceId);
+		assertThat(dtos).isNotNull();
+		assertThat(dtos).hasSize(1);
+		assertThat(dtos[0].failureReason).isEqualTo(FAILURE_REASON_SHADOWED_BY_OTHER_SERVICE);
+		assertThat(dtos[0].serviceId).isEqualTo(reg2.getReference().getProperty(SERVICE_ID));
 	}
 }

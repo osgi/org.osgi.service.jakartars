@@ -23,8 +23,7 @@ import static jakarta.ws.rs.core.MediaType.TEXT_PLAIN;
 import static jakarta.ws.rs.core.Response.Status.PAYMENT_REQUIRED;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.singleton;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -111,7 +110,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		CloseableHttpResponse httpResponse = client.execute(getRequest);
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		// Register an extension
 		awaitSelection = helper.awaitModification(runtime, 5000);
@@ -127,7 +126,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		httpResponse = client.execute(getRequest);
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizzbuzz, fizzbuzzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizzbuzz, fizzbuzzbuzz]");
 
 	}
 
@@ -174,7 +173,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		CloseableHttpResponse httpResponse = client.execute(getRequest);
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizzbuzz, fizzbuzzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizzbuzz, fizzbuzzbuzz]");
 
 		getRequest = RequestBuilder.get(baseURI + "whiteboard/name/unbound")
 				.build();
@@ -182,7 +181,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		httpResponse = client.execute(getRequest);
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 	}
 
@@ -219,7 +218,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		CloseableHttpResponse httpResponse = client.execute(getRequest);
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		// Register a whiteboard extension
 
@@ -237,7 +236,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		httpResponse = client.execute(getRequest);
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizzbuzz, fizzbuzzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizzbuzz, fizzbuzzbuzz]");
 
 		// Register another extension
 		awaitSelection = helper.awaitModification(runtime, 5000);
@@ -256,8 +255,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		httpResponse = client.execute(getRequest);
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[fizzbuzz, fizzfizzbuzz, fizzfizzbuzzfizzbuzz]", response,
-				"The second writer interceptor was not applied after the first.");
+		assertThat(response).as("The second writer interceptor was not applied after the first.").isEqualTo("[fizzbuzz, fizzfizzbuzz, fizzfizzbuzzfizzbuzz]");
 
 		// Promote the second filter to be first
 		awaitSelection = helper.awaitModification(runtime, 5000);
@@ -270,8 +268,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		httpResponse = client.execute(getRequest);
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[fizzbuzzbuzz, fizzbuzz, fizzbuzzfizzbuzzbuzz]", response,
-				"The filter ranking was not observed");
+		assertThat(response).as("The filter ranking was not observed").isEqualTo("[fizzbuzzbuzz, fizzbuzz, fizzbuzzfizzbuzzbuzz]");
 
 		// Reset the second filter ranking to default
 		awaitSelection = helper.awaitModification(runtime, 5000);
@@ -284,8 +281,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		httpResponse = client.execute(getRequest);
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[fizzbuzz, fizzfizzbuzz, fizzfizzbuzzfizzbuzz]",
-				response);
+		assertThat(response).isEqualTo("[fizzbuzz, fizzfizzbuzz, fizzfizzbuzzfizzbuzz]");
 
 	}
 
@@ -341,7 +337,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		httpResponse = client.execute(getRequest);
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizzbuzz, fizzbuzzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizzbuzz, fizzbuzzbuzz]");
 
 	}
 
@@ -376,7 +372,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		CloseableHttpResponse httpResponse = client.execute(getRequest);
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		// Register a whiteboard extension
 
@@ -400,7 +396,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		httpResponse = client.execute(getRequest);
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		// Now register the contextresolver
 		awaitSelection = helper.awaitModification(runtime, 5000);
@@ -419,7 +415,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		httpResponse = client.execute(getRequest);
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizzbuzz, fizzbuzzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizzbuzz, fizzbuzzbuzz]");
 
 	}
 
@@ -460,7 +456,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		CloseableHttpResponse httpResponse = client.execute(getRequest);
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		// Register an extension targeting the whiteboard
 
@@ -482,7 +478,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		httpResponse = client.execute(getRequest);
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizzbuzz, fizzbuzzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizzbuzz, fizzbuzzbuzz]");
 
 		// Change the target
 		awaitSelection = helper.awaitModification(runtime, 5000);
@@ -499,7 +495,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		httpResponse = client.execute(getRequest);
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		// Reset the target
 		awaitSelection = helper.awaitModification(runtime, 5000);
@@ -515,7 +511,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		httpResponse = client.execute(getRequest);
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizzbuzz, fizzbuzzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizzbuzz, fizzbuzzbuzz]");
 
 	}
 
@@ -550,7 +546,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		CloseableHttpResponse httpResponse = client.execute(getRequest);
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		awaitSelection = helper.awaitModification(runtime, 5000);
 
@@ -566,7 +562,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		httpResponse = client.execute(getRequest);
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizzbuzz, fizzbuzzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizzbuzz, fizzbuzzbuzz]");
 
 	}
 
@@ -603,7 +599,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		CloseableHttpResponse httpResponse = client.execute(getRequest);
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		awaitSelection = helper.awaitModification(runtime, 5000);
 
@@ -623,7 +619,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		httpResponse = client.execute(getRequest2);
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		// Register the whiteboard extension
 		awaitSelection = helper.awaitModification(runtime, 5000);
@@ -641,13 +637,13 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		httpResponse = client.execute(getRequest);
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizzbuzz, fizzbuzzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizzbuzz, fizzbuzzbuzz]");
 
 		// Not applied to the second resource
 		httpResponse = client.execute(getRequest2);
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 	}
 
@@ -684,7 +680,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		CloseableHttpResponse httpResponse = client.execute(getRequest);
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("fizz", response);
+		assertThat(response).isEqualTo("fizz");
 
 		// Register a whiteboard extension
 		awaitSelection = helper.awaitModification(runtime, 5000);
@@ -700,7 +696,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		httpResponse = client.execute(getRequest);
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("fizzbuzz", response);
+		assertThat(response).isEqualTo("fizzbuzz");
 
 	}
 
@@ -735,7 +731,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		CloseableHttpResponse httpResponse = client.execute(getRequest);
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("fizz", response);
+		assertThat(response).isEqualTo("fizz");
 
 		// Register the extension
 		awaitSelection = helper.awaitModification(runtime, 5000);
@@ -751,9 +747,8 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		httpResponse = client.execute(getRequest);
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("fizzbuzz",
-				httpResponse.getFirstHeader("echo").getValue());
-		assertEquals("fizzbuzz", response);
+		assertThat(httpResponse.getFirstHeader("echo").getValue()).isEqualTo("fizzbuzz");
+		assertThat(response).isEqualTo("fizzbuzz");
 	}
 
 	/**
@@ -789,7 +784,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		CloseableHttpResponse httpResponse = client.execute(getRequest);
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("fizz", response);
+		assertThat(response).isEqualTo("fizz");
 
 		// Register a whiteboard extension
 		awaitSelection = helper.awaitModification(runtime, 5000);
@@ -806,9 +801,8 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		httpResponse = client.execute(getRequest);
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("fizzbuzz",
-				httpResponse.getFirstHeader("echo").getValue());
-		assertEquals("fizz", response);
+		assertThat(httpResponse.getFirstHeader("echo").getValue()).isEqualTo("fizzbuzz");
+		assertThat(response).isEqualTo("fizz");
 
 	}
 
@@ -847,7 +841,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 
 		String response = assertResponse(httpResponse, 200,
 				"osgi/text;charset=UTF-8");
-		assertEquals("fizz", response);
+		assertThat(response).isEqualTo("fizz");
 
 		awaitSelection = helper.awaitModification(runtime, 5000);
 
@@ -864,7 +858,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 			
 		response = assertResponse(httpResponse, 200,
 					"osgi/text;charset=UTF-8");
-		assertEquals("OSGi Read: fizz", response);
+		assertThat(response).isEqualTo("OSGi Read: fizz");
 
 	}
 
@@ -903,7 +897,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 
 		String response = assertResponse(httpResponse, 200,
 				"osgi/text;charset=UTF-8");
-		assertEquals("fizz", response);
+		assertThat(response).isEqualTo("fizz");
 
 		// Register a whiteboard extension
 		awaitSelection = helper.awaitModification(runtime, 5000);
@@ -920,7 +914,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		httpResponse = client.execute(getRequest);
 
 		response = assertResponse(httpResponse, 200, "osgi/text;charset=UTF-8");
-		assertEquals("OSGi Write: fizz", response);
+		assertThat(response).isEqualTo("OSGi Write: fizz");
 
 	}
 
@@ -972,7 +966,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 		httpResponse = client.execute(getRequest);
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("fizz", response);
+		assertThat(response).isEqualTo("fizz");
 
 	}
 
@@ -1025,7 +1019,7 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 
 		String response = assertResponse(httpResponse,
 				PAYMENT_REQUIRED.getStatusCode(), TEXT_PLAIN);
-		assertEquals("NPE", response);
+		assertThat(response).isEqualTo("NPE");
 
 	}
 
@@ -1085,15 +1079,15 @@ public class ExtensionLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizzbuzz, fizzbuzzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizzbuzz, fizzbuzzbuzz]");
 
 		// Unregister the application and check the extension is released
 
 		appReg.unregister();
 
-		assertTrue(getSemaphore.availablePermits() > 0);
-		assertTrue(releaseSemaphore.tryAcquire(getSemaphore.availablePermits(),
-				100, TimeUnit.MILLISECONDS));
+		assertThat(getSemaphore.availablePermits()).isGreaterThan(0);
+		assertThat(releaseSemaphore.tryAcquire(getSemaphore.availablePermits(),
+				100, TimeUnit.MILLISECONDS)).isTrue();
 
 	}
 }

@@ -55,12 +55,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.osgi.tck</groupId>
-			<artifactId>org.osgi.test.support</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.osgi.tck</groupId>
 			<artifactId>org.osgi.tck.signature</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
@@ -88,6 +82,12 @@
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.framework</artifactId>
 			<version>${org.osgi.framework.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.dto</artifactId>
+			<version>${org.osgi.dto.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>

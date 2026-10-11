@@ -21,9 +21,8 @@ package org.osgi.test.cases.jakartars.junit;
 import static jakarta.ws.rs.core.MediaType.TEXT_PLAIN;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.singleton;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assumptions.assumeThat;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -34,7 +33,6 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.StringEntity;
-import org.junit.Assume;
 import org.junit.jupiter.api.Test;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceRegistration;
@@ -91,7 +89,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		// Do a delete
 
@@ -100,7 +98,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		response = assertResponse(httpResponse, 200, null);
-		assertEquals("", response);
+		assertThat(response).isEmpty();
 
 		// Do another get to show the singleton-ness
 
@@ -109,7 +107,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[fizz, fizzbuzz]");
 	}
 
 	/**
@@ -143,7 +141,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		// Do a delete
 
@@ -152,7 +150,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		response = assertResponse(httpResponse, 200, null);
-		assertEquals("", response);
+		assertThat(response).isEmpty();
 
 		// Do another get to show the statelessness
 
@@ -161,7 +159,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 	}
 
@@ -196,7 +194,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		// Change the base and re-request (note that it is valid to have no
 		// leading '/')
@@ -213,7 +211,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 	}
 
@@ -248,7 +246,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 				.build());
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		// Change the base and re-request (note that it is valid to have no
 		// leading '/'
@@ -265,7 +263,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 				.build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 	}
 
@@ -340,7 +338,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 				RequestBuilder.get(baseURI + "whiteboard/resource").build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		// Rebind the resource targeting test2
 
@@ -364,7 +362,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		httpResponse = client.execute(
 				RequestBuilder.get(baseURI + "whiteboard/resource").build());
@@ -399,7 +397,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 				RequestBuilder.get(baseURI + "whiteboard/resource").build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		// Target all the applications
 
@@ -416,20 +414,20 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 				RequestBuilder.get(baseURI + "test/whiteboard/resource")
 						.build());
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		httpResponse = client.execute(
 				RequestBuilder.get(baseURI + "test2/whiteboard/resource")
 						.build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		httpResponse = client.execute(
 				RequestBuilder.get(baseURI + "whiteboard/resource").build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 	}
 
@@ -496,20 +494,20 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizzbuzz, fizzbuzzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizzbuzz, fizzbuzzbuzz]");
 
 		httpResponse = client.execute(
 				RequestBuilder.get(baseURI + "test2/whiteboard/resource")
 						.build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		httpResponse = client.execute(
 				RequestBuilder.get(baseURI + "whiteboard/resource").build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 	}
 
@@ -575,20 +573,20 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		httpResponse = client.execute(
 				RequestBuilder.get(baseURI + "test2/whiteboard/resource")
 						.build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		httpResponse = client.execute(
 				RequestBuilder.get(baseURI + "whiteboard/resource").build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		// Register an extension targeting both test applications
 
@@ -610,20 +608,20 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizzbuzz, fizzbuzzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizzbuzz, fizzbuzzbuzz]");
 
 		httpResponse = client.execute(
 				RequestBuilder.get(baseURI + "test2/whiteboard/resource")
 						.build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizzbuzz, fizzbuzzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizzbuzz, fizzbuzzbuzz]");
 
 		httpResponse = client.execute(
 				RequestBuilder.get(baseURI + "whiteboard/resource").build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 	}
 
@@ -692,20 +690,20 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		httpResponse = client.execute(
 				RequestBuilder.get(baseURI + "test2/whiteboard/resource")
 						.build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		httpResponse = client.execute(
 				RequestBuilder.get(baseURI + "whiteboard/resource").build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		// Register an extension which needs config
 		// This will only be satisfied by one of the applications
@@ -732,20 +730,20 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		httpResponse = client.execute(
 				RequestBuilder.get(baseURI + "test2/whiteboard/resource")
 						.build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizzbuzz, fizzbuzzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizzbuzz, fizzbuzzbuzz]");
 
 		httpResponse = client.execute(
 				RequestBuilder.get(baseURI + "whiteboard/resource").build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 	}
 
@@ -821,7 +819,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 
 		String response = assertResponse(httpResponse, 200,
 				TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		httpResponse = client.execute(RequestBuilder
 				.get(baseURI + "test2/whiteboard/resource")
@@ -833,7 +831,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 				.get(baseURI + "whiteboard/resource").build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		// Register an extension which provides the config needed
 		// by the test 2 application
@@ -859,20 +857,20 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		httpResponse = client.execute(
 				RequestBuilder.get(baseURI + "test2/whiteboard/resource")
 						.build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizzbuzz, fizzbuzzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizzbuzz, fizzbuzzbuzz]");
 
 		httpResponse = client.execute(
 				RequestBuilder.get(baseURI + "whiteboard/resource").build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 	}
 
@@ -917,7 +915,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 		CloseableHttpResponse httpResponse = client.execute(getRequest);
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		// Change the target
 		awaitSelection = helper.awaitModification(runtime, 5000);
@@ -946,7 +944,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 		httpResponse = client.execute(getRequest);
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 	}
 
@@ -962,9 +960,9 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 			getClass().getClassLoader()
 					.loadClass("jakarta.servlet.http.HttpSession");
 		} catch (ClassNotFoundException cnfe) {
-			Assume.assumeNoException(
-					"No servlet container detected, so session isolation cannot be tested",
-					cnfe);
+			assumeThat(cnfe).as(
+					"No servlet container detected, so session isolation cannot be tested")
+					.isNull();
 		}
 
 		// Register the first application at "test"
@@ -1012,7 +1010,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("buzz", response);
+		assertThat(response).isEqualTo("buzz");
 
 		// Set the same property with a different value on test2
 
@@ -1028,7 +1026,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("fizzbuzz", response);
+		assertThat(response).isEqualTo("fizzbuzz");
 
 		// Check that test was isolated from the change
 
@@ -1037,7 +1035,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("buzz", response);
+		assertThat(response).isEqualTo("buzz");
 
 	}
 
@@ -1071,7 +1069,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 				RequestBuilder.get(baseURI + "whiteboard/string").build());
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("fizz", response);
+		assertThat(response).isEqualTo("fizz");
 
 		// Register an application at the default path
 
@@ -1093,7 +1091,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 				RequestBuilder.get(baseURI + "whiteboard/string").build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("buzz", response);
+		assertThat(response).isEqualTo("buzz");
 
 	}
 
@@ -1126,7 +1124,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 				RequestBuilder.get(baseURI + "whiteboard/resource").build());
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		// Register a new default application at "test"
 		awaitSelection = helper.awaitModification(runtime, 5000);
@@ -1150,7 +1148,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizzbuzz, fizzbuzzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizzbuzz, fizzbuzzbuzz]");
 
 	}
 
@@ -1187,9 +1185,7 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 				.build());
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals(
-				String.valueOf(reg.getReference().getProperty("service.id")),
-				response);
+		assertThat(response).isEqualTo(String.valueOf(reg.getReference().getProperty("service.id")));
 
 	}
 
@@ -1243,10 +1239,9 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 		// Get the
 		Object o = value.get();
 
-		assertNotNull(o);
-		assertTrue(o instanceof Map);
-		assertEquals(reg.getReference().getProperty("service.id"),
-						((Map< ? , ? >) o).get("service.id"));
+		assertThat(o).isNotNull();
+		assertThat(o).isInstanceOf(Map.class);
+		assertThat(((Map< ? , ? >) o).get("service.id")).isEqualTo(reg.getReference().getProperty("service.id"));
 
 	}
 }

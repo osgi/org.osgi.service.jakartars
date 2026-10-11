@@ -21,9 +21,7 @@ package org.osgi.test.cases.jakartars.junit;
 
 import static jakarta.ws.rs.core.MediaType.TEXT_PLAIN;
 import static java.util.Collections.emptySet;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.osgi.test.cases.jakartars.resources.ContextInjectedWhiteboardResource.CUSTOM_HEADER;
 
 import java.util.Dictionary;
@@ -85,7 +83,7 @@ public class ResourceLifecyleTestCase extends AbstractJakartarsTestCase {
 				RequestBuilder.get(baseURI + "whiteboard/resource").build());
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		// Do a delete
 
@@ -94,7 +92,7 @@ public class ResourceLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		response = assertResponse(httpResponse, 200, null);
-		assertEquals("", response);
+		assertThat(response).isEmpty();
 
 		// Do another get to show the singleton-ness
 
@@ -102,7 +100,7 @@ public class ResourceLifecyleTestCase extends AbstractJakartarsTestCase {
 				RequestBuilder.get(baseURI + "whiteboard/resource").build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[fizz, fizzbuzz]");
 		
 	}
 
@@ -145,8 +143,8 @@ public class ResourceLifecyleTestCase extends AbstractJakartarsTestCase {
 				RequestBuilder.get(baseURI + "whiteboard/resource").build());
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
-		assertEquals(baseCount + 1, creationCount.get());
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
+		assertThat(creationCount.get()).isEqualTo(baseCount + 1);
 
 		// Do a delete
 
@@ -155,8 +153,8 @@ public class ResourceLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		response = assertResponse(httpResponse, 200, null);
-		assertEquals("", response);
-		assertEquals(baseCount + 2, creationCount.get());
+		assertThat(response).isEmpty();
+		assertThat(creationCount.get()).isEqualTo(baseCount + 2);
 
 		// Do another get to show the singleton-ness
 
@@ -164,8 +162,8 @@ public class ResourceLifecyleTestCase extends AbstractJakartarsTestCase {
 				RequestBuilder.get(baseURI + "whiteboard/resource").build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
-		assertEquals(baseCount + 3, creationCount.get());
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
+		assertThat(creationCount.get()).isEqualTo(baseCount + 3);
 
 	}
 
@@ -204,7 +202,7 @@ public class ResourceLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("test", response);
+		assertThat(response).isEqualTo("test");
 	
 	}
 
@@ -255,11 +253,11 @@ public class ResourceLifecyleTestCase extends AbstractJakartarsTestCase {
 				RequestBuilder.get(baseURI + "whiteboard/async/quack").build());
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("quack", response);
+		assertThat(response).isEqualTo("quack");
 
 		// This should be very fast as the response has been received already
-		assertTrue(releaseSemaphore.tryAcquire(100, TimeUnit.MILLISECONDS));
-		assertFalse(wasReleasedPreCompletion.get());
+		assertThat(releaseSemaphore.tryAcquire(100, TimeUnit.MILLISECONDS)).isTrue();
+		assertThat(wasReleasedPreCompletion.get()).isFalse();
 
 	}
 
@@ -293,7 +291,7 @@ public class ResourceLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("woof", response);
+		assertThat(response).isEqualTo("woof");
 
 		httpResponse.close();
 
@@ -302,7 +300,7 @@ public class ResourceLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("miaow", response);
+		assertThat(response).isEqualTo("miaow");
 
 	}
 
@@ -345,7 +343,7 @@ public class ResourceLifecyleTestCase extends AbstractJakartarsTestCase {
 		CloseableHttpResponse httpResponse = client.execute(getRequest);
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		// Change the target
 		awaitSelection = helper.awaitModification(runtime, 5000);
@@ -374,7 +372,7 @@ public class ResourceLifecyleTestCase extends AbstractJakartarsTestCase {
 		httpResponse = client.execute(getRequest);
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 	}
 
@@ -434,7 +432,7 @@ public class ResourceLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		String response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[buzz, fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[buzz, fizz, fizzbuzz]");
 
 		// Do a delete
 
@@ -443,7 +441,7 @@ public class ResourceLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		response = assertResponse(httpResponse, 200, null);
-		assertEquals("", response);
+		assertThat(response).isEmpty();
 
 		// Do another get to show the singleton-ness
 
@@ -452,14 +450,14 @@ public class ResourceLifecyleTestCase extends AbstractJakartarsTestCase {
 						.build());
 
 		response = assertResponse(httpResponse, 200, TEXT_PLAIN);
-		assertEquals("[fizz, fizzbuzz]", response);
+		assertThat(response).isEqualTo("[fizz, fizzbuzz]");
 
 		// Unregister the application
 		appReg.unregister();
 
-		assertTrue(getSemaphore.availablePermits() > 0);
-		assertTrue(releaseSemaphore.tryAcquire(getSemaphore.availablePermits(),
-				100, TimeUnit.MILLISECONDS));
+		assertThat(getSemaphore.availablePermits()).isGreaterThan(0);
+		assertThat(releaseSemaphore.tryAcquire(getSemaphore.availablePermits(),
+				100, TimeUnit.MILLISECONDS)).isTrue();
 
 	}
 }

@@ -17,11 +17,9 @@
  *******************************************************************************/
 package org.osgi.test.cases.jakartars.junit;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Arrays;
+
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
@@ -89,11 +87,11 @@ public class SSETestCase extends AbstractJakartarsTestCase {
 
 		source.open();
 
-		assertTrue(s.tryAcquire(10, TimeUnit.SECONDS));
+		assertThat(s.tryAcquire(10, TimeUnit.SECONDS)).isTrue();
 
-		assertNull(ref.get());
+		assertThat(ref.get()).isNull();
 
-		assertEquals(Arrays.asList(42, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9), list);
+		assertThat(list).isEqualTo(Arrays.asList(42, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
 		
 	}
 }

@@ -1,7 +1,7 @@
 # Set javac settings from JDT prefs
 
 
--conditionalpackage: org.osgi.test.support.*, org.osgi.tck.signature.*,\
+-conditionalpackage: org.osgi.tck.signature.*,\
  org.apache.http.*,\
  org.apache.commons.codec.*,\
  org.apache.commons.logging.*
@@ -32,7 +32,6 @@ p: org.osgi.test.cases.jakartars
 # way). bnd merges all -make.* entries.
 -make.maven: (*).(jar); type=bnd; recipe="bnd/$1.bnd"
 
-testcases.junit3: ${classes;EXTENDS;junit.framework.TestCase;CONCRETE}
 testcases.junit5: ${classes;HIERARCHY_INDIRECTLY_ANNOTATED;org.junit.platform.commons.annotation.Testable;CONCRETE}
-Test-Cases: ${sort;${uniq;${testcases.junit3};${testcases.junit5}}}
+Test-Cases: ${sort;${uniq;${testcases.junit5}}}
 -plugin.signaturetest: SignatureTest

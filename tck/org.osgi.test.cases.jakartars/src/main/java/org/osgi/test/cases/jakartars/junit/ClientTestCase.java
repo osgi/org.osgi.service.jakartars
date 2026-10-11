@@ -18,10 +18,7 @@
 package org.osgi.test.cases.jakartars.junit;
 
 import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.osgi.framework.Constants.SCOPE_PROTOTYPE;
 import static org.osgi.framework.Constants.SERVICE_SCOPE;
 
@@ -59,11 +56,11 @@ public class ClientTestCase extends AbstractJakartarsTestCase {
 	public void testJaxRsClientService(@InjectService
 	ServiceAware<ClientBuilder> builderService) throws Exception {
 
-		assertNotNull(builderService.waitForService(2000));
+		assertThat(builderService.waitForService(2000)).isNotNull();
 
 		for (ServiceReference<ClientBuilder> ref : builderService
 				.getServiceReferences()) {
-			assertEquals(SCOPE_PROTOTYPE, ref.getProperty(SERVICE_SCOPE));
+			assertThat(ref.getProperty(SERVICE_SCOPE)).isEqualTo(SCOPE_PROTOTYPE);
 		}
 
 		Client c = builderService.getService().build();
@@ -73,8 +70,7 @@ public class ClientTestCase extends AbstractJakartarsTestCase {
 		WebTarget target = c.target(baseURI).path("whiteboard/resource");
 
 		// Do a get
-		assertEquals(NOT_FOUND.getStatusCode(),
-				target.request().get().getStatusInfo().getStatusCode());
+		assertThat(target.request().get().getStatusInfo().getStatusCode()).isEqualTo(NOT_FOUND.getStatusCode());
 
 		// Register a resource
 		Dictionary<String,Object> properties = new Hashtable<>();
@@ -89,8 +85,7 @@ public class ClientTestCase extends AbstractJakartarsTestCase {
 
 		// Do another get
 
-		assertEquals("[buzz, fizz, fizzbuzz]",
-				target.request().get(String.class));
+		assertThat(target.request().get(String.class)).isEqualTo("[buzz, fizz, fizzbuzz]");
 		
 	}
 
@@ -103,7 +98,7 @@ public class ClientTestCase extends AbstractJakartarsTestCase {
 	public void testJaxRsPromiseRxInvoker(@InjectService
 	ServiceAware<ClientBuilder> builderService) throws Exception {
 
-		assertNotNull(builderService.waitForService(2000));
+		assertThat(builderService.waitForService(2000)).isNotNull();
 
 		Client c = builderService.getService().build();
 
@@ -128,15 +123,15 @@ public class ClientTestCase extends AbstractJakartarsTestCase {
 				.rx(PromiseRxInvoker.class)
 				.get(String.class);
 
-		assertFalse(p.isDone());
+		assertThat(p.isDone()).isFalse();
 
 		Semaphore s = new Semaphore(0);
 
 		p.onResolve(s::release);
 
-		assertTrue(s.tryAcquire(5, TimeUnit.SECONDS));
+		assertThat(s.tryAcquire(5, TimeUnit.SECONDS)).isTrue();
 
-		assertEquals("Bob", p.getValue());
+		assertThat(p.getValue()).isEqualTo("Bob");
 
 	}
 

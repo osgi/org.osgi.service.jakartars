@@ -19,7 +19,7 @@
 
 package org.osgi.test.cases.jakartars.junit;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.osgi.service.jakartars.runtime.JakartarsServiceRuntimeConstants.JAKARTA_RS_SERVICE_ENDPOINT;
 
 import java.io.ByteArrayOutputStream;
@@ -106,12 +106,12 @@ public abstract class AbstractJakartarsTestCase {
 	protected String assertResponse(CloseableHttpResponse response,
 			int responseCode, String mediaType) throws IOException {
 
-		assertEquals(responseCode, response.getStatusLine().getStatusCode());
+		assertThat(response.getStatusLine().getStatusCode()).isEqualTo(responseCode);
 
 		HttpEntity entity = response.getEntity();
 
 		if (mediaType != null) {
-			assertEquals(mediaType, entity.getContentType().getValue());
+			assertThat(entity.getContentType().getValue()).isEqualTo(mediaType);
 		}
 
 		if (entity != null) {
