@@ -13,6 +13,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
+		<jakarta.ws.rs-api.version>3.1.0</jakarta.ws.rs-api.version>
 		<aopalliance-repackaged.version>3.0.3</aopalliance-repackaged.version>
 		<asm-all.version>5.0.4</asm-all.version>
 		<asm-analysis.version>9.3</asm-analysis.version>

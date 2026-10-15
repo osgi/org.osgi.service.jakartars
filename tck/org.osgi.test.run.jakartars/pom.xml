@@ -214,7 +214,7 @@
 		<dependency>
 			<groupId>jakarta.ws.rs</groupId>
 			<artifactId>jakarta.ws.rs-api</artifactId>
-			<version>3.1.0</version>
+			<version>${jakarta.ws.rs-api.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
