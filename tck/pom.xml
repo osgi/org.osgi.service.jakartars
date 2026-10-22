@@ -47,7 +47,7 @@
 		<jetty-http.version>11.0.12</jetty-http.version>
 		<jetty-io.version>11.0.12</jetty-io.version>
 		<jetty-security.version>11.0.12</jetty-security.version>
-		<jetty-server.version>11.0.12</jetty-server.version>
+		<jetty-server.version>12.1.14</jetty-server.version>
 		<jetty-servlet.version>11.0.12</jetty-servlet.version>
 		<jetty-util.version>11.0.12</jetty-util.version>
 		<johnzon-core.version>1.2.14</johnzon-core.version>
