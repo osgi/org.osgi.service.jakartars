@@ -34,8 +34,6 @@ tck.range: ${range;[===,==+);${version_cleanup;${1}}}
 	bnd.identity;id='org.osgi.test.cases.jakartars';version='${tck.range;${revision}}',\
 	bnd.identity;id='org.apache.felix.configadmin';version='${tck.range;${org.apache.felix.configadmin.version}}',\
 	bnd.identity;id='org.apache.aries.spifly.dynamic.bundle';version='${tck.range;${org.apache.aries.spifly.dynamic.bundle.version}}',\
-	bnd.identity;id='org.apache.aries.util';version='${tck.range;${org.apache.aries.util.version}}',\
-	bnd.identity;id='org.objectweb.asm.all';version='${tck.range;${asm-all.version}}',\
 	bnd.identity;id='org.apache.felix.scr';version='${tck.range;${org.apache.felix.scr.version}}',\
 	bnd.identity;id='org.apache.geronimo.specs.geronimo-json_1.1_spec';version='${tck.range;${geronimo-json_1.1_spec.version}}',\
 	bnd.identity;id='org.apache.johnzon.core';version='${tck.range;${johnzon-core.version}}',\
@@ -76,10 +74,10 @@ tck.range: ${range;[===,==+);${version_cleanup;${1}}}
 	bnd.identity;id='slf4j.simple';version='${tck.range;${slf4j.version}}',\
 	bnd.identity;id='com.sun.activation.jakarta.activation';version='${tck.range;${jakarta.activation.version}}',\
 	bnd.identity;id='com.sun.xml.bind.jaxb-osgi';version='${tck.range;${jaxb-osgi.version}}',\
-	bnd.identity;id='org.gecko.rest.jersey';version='${tck.range;${org.gecko.rest.jersey.version}}',\
-	bnd.identity;id='org.gecko.rest.jersey.jetty';version='${tck.range;${org.gecko.rest.jersey.jetty.version}}',\
-	bnd.identity;id='org.gecko.rest.jersey.sse';version='${tck.range;${org.gecko.rest.jersey.sse.version}}',\
-	bnd.identity;id='org.gecko.rest.jersey.tck';version='${tck.range;${org.gecko.rest.jersey.tck.version}}',\
+	bnd.identity;id='org.eclipse.osgitech.rest';version='${tck.range;${org.eclipse.osgitech.rest.version}}',\
+	bnd.identity;id='org.eclipse.osgitech.rest.config';version='${tck.range;${org.eclipse.osgitech.rest.config.version}}',\
+	bnd.identity;id='org.eclipse.osgitech.rest.jetty';version='${tck.range;${org.eclipse.osgitech.rest.jetty.version}}',\
+	bnd.identity;id='org.eclipse.osgitech.rest.sse';version='${tck.range;${org.eclipse.osgitech.rest.sse.version}}',\
 	bnd.identity;id='assertj-core';version='${tck.range;${assertj.version}}',\
 	bnd.identity;id='junit-jupiter-api';version='${tck.range;${junit-jupiter.version}}',\
 	bnd.identity;id='junit-jupiter-engine';version='${tck.range;${junit-jupiter.version}}',\
@@ -114,7 +112,6 @@ tck.range: ${range;[===,==+);${version_cleanup;${1}}}
 	junit-platform-launcher;version='${tck.range;${junit-platform.version}}',\
 	net.bytebuddy.byte-buddy;version='${tck.range;${byte-buddy.version}}',\
 	org.apache.aries.spifly.dynamic.bundle;version='${tck.range;${org.apache.aries.spifly.dynamic.bundle.version}}',\
-	org.apache.aries.util;version='${tck.range;${org.apache.aries.util.version}}',\
 	org.apache.felix.cm.json;version='${tck.range;${org.apache.felix.cm.json.version}}',\
 	org.apache.felix.configadmin;version='${tck.range;${org.apache.felix.configadmin.version}}',\
 	org.apache.felix.configurator;version='${tck.range;${org.apache.felix.configurator.version}}',\
@@ -128,10 +125,10 @@ tck.range: ${range;[===,==+);${version_cleanup;${1}}}
 	org.eclipse.jetty.server;version='${tck.range;${jetty-server.version}}',\
 	org.eclipse.jetty.servlet;version='${tck.range;${jetty-servlet.version}}',\
 	org.eclipse.jetty.util;version='${tck.range;${jetty-util.version}}',\
-	org.gecko.rest.jersey;version='${tck.range;${org.gecko.rest.jersey.version}}',\
-	org.gecko.rest.jersey.jetty;version='${tck.range;${org.gecko.rest.jersey.jetty.version}}',\
-	org.gecko.rest.jersey.sse;version='${tck.range;${org.gecko.rest.jersey.sse.version}}',\
-	org.gecko.rest.jersey.tck;version='${tck.range;${org.gecko.rest.jersey.tck.version}}',\
+	org.eclipse.osgitech.rest;version='${tck.range;${org.eclipse.osgitech.rest.version}}',\
+	org.eclipse.osgitech.rest.config;version='${tck.range;${org.eclipse.osgitech.rest.config.version}}',\
+	org.eclipse.osgitech.rest.jetty;version='${tck.range;${org.eclipse.osgitech.rest.jetty.version}}',\
+	org.eclipse.osgitech.rest.sse;version='${tck.range;${org.eclipse.osgitech.rest.sse.version}}',\
 	org.glassfish.hk2.api;version='${tck.range;${hk2-api.version}}',\
 	org.glassfish.hk2.external.aopalliance-repackaged;version='${tck.range;${aopalliance-repackaged.version}}',\
 	org.glassfish.hk2.locator;version='${tck.range;${hk2-locator.version}}',\
@@ -146,8 +143,8 @@ tck.range: ${range;[===,==+);${version_cleanup;${1}}}
 	org.glassfish.jersey.media.jersey-media-jaxb;version='${tck.range;${jersey-media-jaxb.version}}',\
 	org.glassfish.jersey.media.jersey-media-sse;version='${tck.range;${jersey-media-sse.version}}',\
 	org.objectweb.asm;version='${tck.range;${asm.version}}',\
-	org.objectweb.asm.all;version='${tck.range;${asm-all.version}}',\
-	org.objectweb.asm.tree;version='[9.3.0,9.3.1)',\
+	org.objectweb.asm.commons;version='${tck.range;${asm-commons.version}}',\
+	org.objectweb.asm.tree;version='${tck.range;${asm-tree.version}}',\
 	org.objectweb.asm.tree.analysis;version='${tck.range;${asm-analysis.version}}',\
 	org.objectweb.asm.util;version='${tck.range;${asm-util.version}}',\
 	org.opentest4j;version='${tck.range;${opentest4j.version}}',\

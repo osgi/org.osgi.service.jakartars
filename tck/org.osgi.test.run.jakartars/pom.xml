@@ -56,18 +56,6 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.aries</groupId>
-			<artifactId>org.apache.aries.util</artifactId>
-			<version>${org.apache.aries.util.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.ow2.asm</groupId>
-			<artifactId>asm-all</artifactId>
-			<version>${asm-all.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.scr</artifactId>
 			<version>${org.apache.felix.scr.version}</version>
@@ -284,6 +272,12 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm-commons</artifactId>
+			<version>${asm-commons.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
@@ -308,27 +302,27 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.geckoprojects.jakartars</groupId>
-			<artifactId>org.gecko.rest.jersey</artifactId>
-			<version>${org.gecko.rest.jersey.version}</version>
+			<groupId>org.eclipse.osgi-technology.rest</groupId>
+			<artifactId>org.eclipse.osgitech.rest</artifactId>
+			<version>${org.eclipse.osgitech.rest.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.geckoprojects.jakartars</groupId>
-			<artifactId>org.gecko.rest.jersey.jetty</artifactId>
-			<version>${org.gecko.rest.jersey.jetty.version}</version>
+			<groupId>org.eclipse.osgi-technology.rest</groupId>
+			<artifactId>org.eclipse.osgitech.rest.config</artifactId>
+			<version>${org.eclipse.osgitech.rest.config.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.geckoprojects.jakartars</groupId>
-			<artifactId>org.gecko.rest.jersey.sse</artifactId>
-			<version>${org.gecko.rest.jersey.sse.version}</version>
+			<groupId>org.eclipse.osgi-technology.rest</groupId>
+			<artifactId>org.eclipse.osgitech.rest.jetty</artifactId>
+			<version>${org.eclipse.osgitech.rest.jetty.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.geckoprojects.jakartars</groupId>
-			<artifactId>org.gecko.rest.jersey.tck</artifactId>
-			<version>${org.gecko.rest.jersey.tck.version}</version>
+			<groupId>org.eclipse.osgi-technology.rest</groupId>
+			<artifactId>org.eclipse.osgitech.rest.sse</artifactId>
+			<version>${org.eclipse.osgitech.rest.sse.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
