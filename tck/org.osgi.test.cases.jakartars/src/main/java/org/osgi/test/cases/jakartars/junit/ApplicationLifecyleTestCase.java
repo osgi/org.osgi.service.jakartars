@@ -33,7 +33,6 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.StringEntity;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceRegistration;
@@ -955,9 +954,6 @@ public class ApplicationLifecyleTestCase extends AbstractJakartarsTestCase {
 	 * @throws Exception
 	 */
 	@Test
-	@Disabled("The default configuration of the reference implementation "
-			+ "disables HTTP sessions. Disabled only to release a snapshot; "
-			+ "re-enabled once it is deployed")
 	public void testApplicationIsolationContainer() throws Exception {
 
 		try {
