@@ -19,8 +19,6 @@
 		<asm-tree.version>9.10.1</asm-tree.version>
 		<asm-util.version>9.10.1</asm-util.version>
 		<asm.version>9.10.1</asm.version>
-		<assertj.version>3.23.1</assertj.version>
-		<byte-buddy.version>1.12.10</byte-buddy.version>
 		<geronimo-json_1.1_spec.version>1.5</geronimo-json_1.1_spec.version>
 		<hk2-api.version>3.0.3</hk2-api.version>
 		<hk2-locator.version>3.0.3</hk2-locator.version>
@@ -51,9 +49,6 @@
 		<jetty-servlet.version>11.0.12</jetty-servlet.version>
 		<jetty-util.version>11.0.12</jetty-util.version>
 		<johnzon-core.version>1.2.14</johnzon-core.version>
-		<junit-jupiter.version>5.12.2</junit-jupiter.version>
-		<junit-platform.version>1.12.2</junit-platform.version>
-		<opentest4j.version>1.3.0</opentest4j.version>
 		<org.apache.aries.spifly.dynamic.bundle.version>1.3.8</org.apache.aries.spifly.dynamic.bundle.version>
 		<org.apache.felix.cm.json.version>1.0.6</org.apache.felix.cm.json.version>
 		<org.apache.felix.configadmin.version>1.9.26</org.apache.felix.configadmin.version>
@@ -77,8 +72,6 @@
 		<org.osgi.util.promise.version>1.3.0</org.osgi.util.promise.version>
 		<org.osgi.util.tracker.version>1.5.4</org.osgi.util.tracker.version>
 		<osgi-resource-locator.version>1.0.3</osgi-resource-locator.version>
-		<osgi-test.version>1.4.0-SNAPSHOT</osgi-test.version>
-		<servicemix-junit.version>4.13.2_1</servicemix-junit.version>
 		<slf4j.version>2.0.11</slf4j.version>
 	</properties>
 
