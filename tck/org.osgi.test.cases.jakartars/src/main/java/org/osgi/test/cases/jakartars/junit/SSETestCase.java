@@ -24,7 +24,7 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -78,16 +78,28 @@ public class SSETestCase extends AbstractJakartarsTestCase {
 		// Get the SSE stream
 		AtomicReference<Throwable> ref = new AtomicReference<Throwable>();
 		List<Integer> list = new CopyOnWriteArrayList<>();
-		Semaphore s = new Semaphore(0);
+		// the initial event (42) plus the events 0..9
+		CountDownLatch latch = new CountDownLatch(11);
 
 		SseEventSource source = sseFactory.newSource(target);
 
-		source.register(e -> list.add(e.readData(Integer.class)),
-				t -> ref.set(t), s::release);
+		source.register(e -> {
+			list.add(e.readData(Integer.class));
+			latch.countDown();
+		}, t -> ref.set(t));
 
-		source.open();
+		try {
+			source.open();
 
-		assertThat(s.tryAcquire(10, TimeUnit.SECONDS)).isTrue();
+			assertThat(latch.await(10, TimeUnit.SECONDS))
+					.as("Did not receive all events within 10 seconds")
+					.isTrue();
+		} finally {
+			// Close the event source from the client side. Whether a reconnect
+			// attempt happens before this close is implementation-specific and
+			// must not influence the test outcome.
+			source.close();
+		}
 
 		assertThat(ref.get()).isNull();
 
