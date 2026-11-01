@@ -26,9 +26,10 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.NoContentException;
+import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.sse.Sse;
 import jakarta.ws.rs.sse.SseEventSink;
 
@@ -48,7 +49,7 @@ public class SseResource {
 	@Produces(MediaType.SERVER_SENT_EVENTS)
 	public void stream(@HeaderParam(LAST_EVENT_ID_HEADER)
 	String lastId, @Context
-	SseEventSink sink) throws NoContentException {
+	SseEventSink sink) {
 
 		int id;
 		boolean hello;
@@ -58,7 +59,8 @@ public class SseResource {
 		} else {
 			id = Integer.parseInt(lastId);
 			if (id >= 9) {
-				throw new NoContentException("No events after " + lastId);
+				// signal the client to stop reconnecting (WHATWG EventSource model)
+				throw new WebApplicationException(Response.noContent().build());
 			}
 			hello = false;
 		}
